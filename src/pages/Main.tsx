@@ -15,10 +15,11 @@ import { TUserData } from "../interfaces/userData";
 import { doc, updateDoc } from "firebase/firestore";
 import ClubData from "../components/ClubData";
 import { TClubData } from "../interfaces/clubData";
+import { MovieResult } from "moviedb-promise";
 
 const Main = ({ db }: { db: Firestore }) => {
   const [query, setQuery] = useState("");
-  const [movieData, setMovieData] = useState([]);
+  const [movieData, setMovieData] = useState<MovieResult[]>([]);
   const [shouldFetch, setShouldFetch] = useState(false);
   const [shouldGetConfig, setShouldGetConfig] = useState(true);
   const [baseURL, setBaseURL] = useState("");
@@ -86,19 +87,20 @@ const Main = ({ db }: { db: Firestore }) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setMovieData(data);
     }
   }, [data]);
 
-  const propose = async (id: number) => {
+  const propose = async (id: number, reason:string) => {
     if (userData) {
       const userRef = doc(db, "users", userData.id);
-      await updateDoc(userRef, {
+      const res = await updateDoc(userRef, {
         proposal: id,
+        reason: reason
       });
       setMovieData([]);
       setQuery("");
+      return true
     }
   };
 
@@ -110,7 +112,7 @@ const Main = ({ db }: { db: Firestore }) => {
           value={query}
           onChange={(evt) => setQuery(evt.currentTarget.value)}
         ></Form.Control>
-        <Button>Buscar</Button>
+        <Button type="submit">Buscar</Button>
       </Form>
       <MovieData
         data={movieData}

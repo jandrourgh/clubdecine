@@ -29,8 +29,7 @@ const db = getFirestore(app);
 function App() {
   return (
     <>
-      <Nav>Club de Cine</Nav>
-      <Container>
+      <Container fluid className="pt-3">
         <Routes>
           <Route path="/" element={<Main db={db}/>}></Route>
           <Route path="/login" element={<Login db={db}/>}></Route>

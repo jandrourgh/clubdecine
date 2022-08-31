@@ -1,27 +1,58 @@
-import { collection, Firestore, getDocs, query, where } from "firebase/firestore";
-import { useEffect, useState } from "react"
-import { TClubData } from "../interfaces/clubData"
+import {
+  collection,
+  Firestore,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Carousel, CarouselItem, Col, Container, Row } from "react-bootstrap";
+import { TClubData, TProposal } from "../interfaces/clubData";
+import ProposalItem from "./ProposalItem";
 
-const ClubData = ({data, db}: {data: TClubData | undefined; db: Firestore}) => {
-    console.log(data)
-    const [proposals, setProposals] = useState<{proposal?:number, nombre:string, club:string}[] | undefined>(undefined)
-    useEffect(()=>{
-        const fetchData = async () => {
-            if(data){
-                const q = query(collection(db, "users"), where("club", "==", data.id));
-                const querySnapshot = await getDocs(q);
-                const results: {proposal?:number, nombre:string, club:string}[] = []
-                querySnapshot.forEach((doc) => {
-                    console.log(doc.id, doc.data())
-                    results.push(doc.data() as {proposal?: number, nombre:string, club:string})
-                });
-                return results
-            }
-        }
-        fetchData().then(data=>setProposals(data))
 
-    },[data, db])
 
-    return <h1>Club data</h1>
-}
-export default ClubData
+const ClubData = ({
+  data,
+  db,
+}: {
+  data: TClubData | undefined;
+  db: Firestore;
+}) => {
+  const [proposals, setProposals] = useState<
+    | TProposal[]
+    | undefined
+  >(undefined);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (data) {
+        const q = query(collection(db, "users"), where("club", "==", data.id));
+        const querySnapshot = await getDocs(q);
+        const results: TProposal[] = [];
+        querySnapshot.forEach((doc) => {
+          results.push(
+            doc.data() as TProposal
+          );
+        });
+        return results;
+      }
+    };
+    fetchData().then((data) => setProposals(data));
+  }, [data, db]);
+
+  return (
+    <Container fluid>
+      <Row>
+        <h1>{data?.nombre}</h1>
+      </Row>
+      {proposals && (
+        <Row><Carousel>
+          {proposals.map((proposal, i) => (
+            <CarouselItem key={i}><ProposalItem proposal={proposal}/></CarouselItem>
+          ))}
+        </Carousel></Row>
+      )}
+    </Container>
+  );
+};
+export default ClubData;

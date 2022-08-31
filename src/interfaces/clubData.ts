@@ -9,9 +9,11 @@ export interface clubData {
 }
 
 export interface TProposal {
-    user: string,
-    movie: TMovie
-}
+    proposal?: number;
+    reason?: string;
+    nombre: string;
+    club: string;
+  }
 
 
 export interface TClubData {

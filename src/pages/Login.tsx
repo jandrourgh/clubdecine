@@ -28,7 +28,6 @@ const Login = ({ db }: { db : Firestore}) => {
           setError(false)
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
             const userData = doc.data() as TUserData
             localStorage.setItem("nombre", userData.nombre)
             localStorage.setItem("club", userData.club)
