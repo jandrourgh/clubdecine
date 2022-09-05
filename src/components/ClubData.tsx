@@ -2,6 +2,7 @@ import {
   collection,
   Firestore,
   getDocs,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -46,8 +47,8 @@ const ClubData = ({
         <h1>{data?.nombre}</h1>
       </Row>
       {proposals && (
-        <Row><Carousel>
-          {proposals.map((proposal, i) => (
+        <Row><Carousel interval={null}>
+          {proposals.sort((a, b)=>a.admin===true?-1:b.admin===true?1:-1).map((proposal, i) => (
             <CarouselItem key={i}><ProposalItem proposal={proposal}/></CarouselItem>
           ))}
         </Carousel></Row>

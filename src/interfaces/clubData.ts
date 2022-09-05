@@ -13,6 +13,7 @@ export interface TProposal {
     reason?: string;
     nombre: string;
     club: string;
+    admin?: boolean;
   }
 
 

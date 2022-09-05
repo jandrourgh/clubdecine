@@ -33,6 +33,12 @@ const [imgConfig, setImgConfig] = useState<ConfigurationResponse | undefined>(un
             <h5>
             Propuesta por {proposal.nombre}
                 </h5></Row>
+            <Row className="p-4 pt-0">
+            <p>
+              {proposal.reason}
+            </p>
+
+            </Row>
         </>
       ) : (
         <Card.Body className="d-flex justify-content-center align-items-center p-5">

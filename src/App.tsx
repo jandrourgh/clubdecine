@@ -29,12 +29,12 @@ const db = getFirestore(app);
 function App() {
   return (
     <>
-      <Container fluid className="pt-3">
+      <div className="pt-3">
         <Routes>
           <Route path="/" element={<Main db={db}/>}></Route>
           <Route path="/login" element={<Login db={db}/>}></Route>
         </Routes>
-      </Container>
+      </div>
     </>
   );
 }

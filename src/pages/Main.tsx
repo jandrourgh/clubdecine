@@ -6,7 +6,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, InputGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import MovieData from "../components/MovieData";
 import useConfig from "../hooks/useConfig";
@@ -107,13 +107,24 @@ const Main = ({ db }: { db: Firestore }) => {
   return (
     <>
       <ClubData data={clubData} db={db}></ClubData>
-      <Form onSubmit={(evt) => handleSubmit(evt)}>
-        <Form.Control
-          value={query}
-          onChange={(evt) => setQuery(evt.currentTarget.value)}
-        ></Form.Control>
-        <Button type="submit">Buscar</Button>
-      </Form>
+      <Row className="p-3">
+        <Form onSubmit={(evt) => handleSubmit(evt)}>
+          <InputGroup>
+          <Form.Control
+            value={query}
+            onChange={(evt) => setQuery(evt.currentTarget.value)}
+          ></Form.Control>
+          <Button type="submit" variant="dark bg-black">Buscar</Button>
+          {
+            movieData.length>0 && <Button onClick={()=>{
+              setMovieData([])
+              setQuery("")
+            }} variant="danger">Limpiar</Button>
+          }
+          </InputGroup>
+        </Form>
+
+      </Row>
       <MovieData
         data={movieData}
         baseURL={baseURL}

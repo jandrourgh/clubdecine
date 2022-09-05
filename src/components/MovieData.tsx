@@ -37,7 +37,7 @@ const MovieData = ({data, baseURL, propose} : {data: MovieResult[]; baseURL: str
             <ModalBody className="bg-dark p-4">
                 <Form>
                     <FormLabel>¿Por qué quieres proponer esta peli?</FormLabel>
-                    <FormControl onChange={(evt) => setReason(evt.target.value)} type="textarea" value={reason}></FormControl>
+                    <FormControl onChange={(evt) => setReason(evt.target.value)} style={{height: 100}} as="textarea" value={reason}></FormControl>
                 </Form>
                 <Row className="pt-4 " >
                     <Col><Button onClick={()=>setModal(false)}variant="outline-danger">Cancelar</Button></Col>
