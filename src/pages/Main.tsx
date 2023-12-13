@@ -6,7 +6,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
-import { Button, Form, InputGroup, Row } from "react-bootstrap";
+import { Button, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import MovieData from "../components/MovieData";
 import useConfig from "../hooks/useConfig";
@@ -32,11 +32,9 @@ const Main = ({ db }: { db: Firestore }) => {
   const [data] = useFetch(query, shouldFetch);
   const [config] = useConfig(shouldGetConfig);
 
-  useEffect(() => {
-  }, [userData]);
+  useEffect(() => {}, [userData]);
 
-  useEffect(()=>{
-  }, [clubData])
+  useEffect(() => {}, [clubData]);
 
   useEffect(() => {
     const nombre = localStorage.getItem("nombre");
@@ -91,46 +89,52 @@ const Main = ({ db }: { db: Firestore }) => {
     }
   }, [data]);
 
-  const propose = async (id: number, reason:string) => {
+  const propose = async (id: number, reason: string) => {
     if (userData) {
       const userRef = doc(db, "users", userData.id);
       const res = await updateDoc(userRef, {
         proposal: id,
-        reason: reason
+        reason: reason,
       });
       setMovieData([]);
       setQuery("");
-      return true
+      return true;
     }
   };
 
   return (
-    <>
+    <Container>
       <ClubData data={clubData} db={db}></ClubData>
       <Row className="p-3">
         <Form onSubmit={(evt) => handleSubmit(evt)}>
           <InputGroup>
-          <Form.Control
-            value={query}
-            onChange={(evt) => setQuery(evt.currentTarget.value)}
-          ></Form.Control>
-          <Button type="submit" variant="dark bg-black">Buscar</Button>
-          {
-            movieData.length>0 && <Button onClick={()=>{
-              setMovieData([])
-              setQuery("")
-            }} variant="danger">Limpiar</Button>
-          }
+            <Form.Control
+              value={query}
+              onChange={(evt) => setQuery(evt.currentTarget.value)}
+            ></Form.Control>
+            <Button type="submit" variant="dark bg-black">
+              Buscar
+            </Button>
+            {movieData.length > 0 && (
+              <Button
+                onClick={() => {
+                  setMovieData([]);
+                  setQuery("");
+                }}
+                variant="danger"
+              >
+                Limpiar
+              </Button>
+            )}
           </InputGroup>
         </Form>
-
       </Row>
       <MovieData
         data={movieData}
         baseURL={baseURL}
         propose={propose}
       ></MovieData>
-    </>
+    </Container>
   );
 };
 export default Main;
