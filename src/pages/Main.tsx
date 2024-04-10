@@ -1,7 +1,6 @@
 import { Firestore } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import useConfig from "../hooks/useConfig";
 import ClubData from "../components/ClubData";
 import { TClubData } from "../interfaces/clubData";
 

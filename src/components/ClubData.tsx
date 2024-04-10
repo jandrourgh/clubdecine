@@ -13,6 +13,7 @@ import { Pagination, EffectCreative } from "swiper/modules";
 import { Container, Row, Button } from "react-bootstrap";
 import styles from "./ClubData.module.scss";
 import { useNavigate } from "react-router-dom";
+import { ConfigurationResponse, MovieDb } from "moviedb-promise";
 
 const ClubData = ({
   data,
@@ -24,6 +25,15 @@ const ClubData = ({
   const [proposals, setProposals] = useState<TProposal[] | undefined>(
     undefined
   );
+  const [imgConfig, setImgConfig] = useState<ConfigurationResponse | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    const moviedb = new MovieDb(process.env.REACT_APP_THEMOVIEDB as string);
+    moviedb.configuration().then((res) => {
+      setImgConfig(res);
+    });
+  }, []);
   const router = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -66,11 +76,12 @@ const ClubData = ({
               next: { opacity: 0, translate: ["100%", 0, 0] },
             }}
           >
-            {proposalsSorted.map((proposal, i) => (
-              <SwiperSlide key={i}>
-                <ProposalItem proposal={proposal} />
-              </SwiperSlide>
-            ))}
+            {imgConfig &&
+              proposalsSorted.map((proposal, i) => (
+                <SwiperSlide key={i}>
+                  <ProposalItem proposal={proposal} imgConfig={imgConfig} />
+                </SwiperSlide>
+              ))}
           </Swiper>
           <Row
             className="position-absolute pe-0"

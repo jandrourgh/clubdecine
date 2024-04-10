@@ -4,25 +4,23 @@ import { Card, CardImg, Row, Button, Container } from "react-bootstrap";
 import { TProposal } from "../interfaces/clubData";
 import styles from "./ProposalItem.module.scss";
 
-const ProposalItem = ({ proposal }: { proposal: TProposal }) => {
-  const moviedb = useMemo(
-    () => new MovieDb(process.env.REACT_APP_THEMOVIEDB as string),
-    []
-  );
+const ProposalItem = ({
+  proposal,
+  imgConfig,
+}: {
+  proposal: TProposal;
+  imgConfig: ConfigurationResponse;
+}) => {
   const [movie, setMovie] = useState<MovieResponse | undefined>(undefined);
-  const [imgConfig, setImgConfig] = useState<ConfigurationResponse | undefined>(
-    undefined
-  );
+
   useEffect(() => {
     if (proposal.proposal) {
+      const moviedb = new MovieDb(process.env.REACT_APP_THEMOVIEDB as string);
       moviedb.movieInfo({ id: proposal.proposal }).then((res) => {
         setMovie(res);
       });
-      moviedb.configuration().then((res) => {
-        setImgConfig(res);
-      });
     }
-  }, [moviedb, proposal]);
+  }, [proposal]);
 
   return (
     <Card
