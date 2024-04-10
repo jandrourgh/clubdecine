@@ -1,5 +1,7 @@
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/effect-creative";
+
 import "./App.scss";
 
 import React, { useEffect, useState } from "react";

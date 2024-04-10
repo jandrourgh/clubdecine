@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TClubData, TProposal } from "../interfaces/clubData";
 import ProposalItem from "./ProposalItem";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Pagination, EffectCreative } from "swiper/modules";
 import { Container, Row, Button } from "react-bootstrap";
 import styles from "./ClubData.module.scss";
 import { useNavigate } from "react-router-dom";
@@ -57,9 +57,14 @@ const ClubData = ({
           <Swiper
             pagination={true}
             loop={true}
-            modules={[Pagination]}
+            modules={[Pagination, EffectCreative]}
             mousewheel={true}
+            effect="creative"
             className={`p-0 min-vh-100 ${styles.swiper}`}
+            creativeEffect={{
+              prev: { opacity: 0, translate: ["-100%", 0, 0] },
+              next: { opacity: 0, translate: ["100%", 0, 0] },
+            }}
           >
             {proposalsSorted.map((proposal, i) => (
               <SwiperSlide key={i}>
