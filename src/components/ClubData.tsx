@@ -2,14 +2,17 @@ import {
   collection,
   Firestore,
   getDocs,
-  orderBy,
   query,
   where,
 } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
-import { Carousel, CarouselItem, Col, Container, Row } from "react-bootstrap";
 import { TClubData, TProposal } from "../interfaces/clubData";
 import ProposalItem from "./ProposalItem";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import { Container, Row, Button } from "react-bootstrap";
+import styles from "./ClubData.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const ClubData = ({
   data,
@@ -21,6 +24,7 @@ const ClubData = ({
   const [proposals, setProposals] = useState<TProposal[] | undefined>(
     undefined
   );
+  const router = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       if (data) {
@@ -46,25 +50,34 @@ const ClubData = ({
     [proposals]
   );
 
-  const noProposed = useMemo(
-    () => proposals?.filter((proposal) => proposal.proposal),
-    [proposals]
-  );
-
   return (
     <>
-      <Row>
-        <h1>{data?.nombre}</h1>
-      </Row>
       {proposalsSorted && (
-        <Row>
-          <Carousel interval={null}>
+        <Row className="">
+          <Swiper
+            pagination={true}
+            loop={true}
+            modules={[Pagination]}
+            mousewheel={true}
+            className={`p-0 min-vh-100 ${styles.swiper}`}
+          >
             {proposalsSorted.map((proposal, i) => (
-              <CarouselItem key={i}>
+              <SwiperSlide key={i}>
                 <ProposalItem proposal={proposal} />
-              </CarouselItem>
+              </SwiperSlide>
             ))}
-          </Carousel>
+          </Swiper>
+          <Row
+            className="position-absolute pe-0"
+            style={{ bottom: 30, zIndex: 20 }}
+          >
+            <h1 className="d-flex pe-0 justify-content-between">
+              {data?.nombre}{" "}
+              <Button variant="light" onClick={() => router("/browse")}>
+                Proponer
+              </Button>
+            </h1>{" "}
+          </Row>
         </Row>
       )}
     </>

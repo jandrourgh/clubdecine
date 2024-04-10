@@ -4,7 +4,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bs-dark) !important;
+  background-color: black !important;
   color: var(--bs-light) !important;
 }
 
