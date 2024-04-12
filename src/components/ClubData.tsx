@@ -71,7 +71,6 @@ const ClubData = ({
             mousewheel={true}
             effect="creative"
             className={`p-0 min-vh-100 ${styles.swiper}`}
-            cssMode={true}
             creativeEffect={{
               prev: { opacity: 0, translate: ["-100%", 0, 0] },
               next: { opacity: 0, translate: ["100%", 0, 0] },
