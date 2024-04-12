@@ -71,6 +71,7 @@ const ClubData = ({
             mousewheel={true}
             effect="creative"
             className={`p-0 min-vh-100 ${styles.swiper}`}
+            cssMode={true}
             creativeEffect={{
               prev: { opacity: 0, translate: ["-100%", 0, 0] },
               next: { opacity: 0, translate: ["100%", 0, 0] },
@@ -78,7 +79,7 @@ const ClubData = ({
           >
             {imgConfig &&
               proposalsSorted.map((proposal, i) => (
-                <SwiperSlide key={i}>
+                <SwiperSlide key={proposal.nombre}>
                   <ProposalItem proposal={proposal} imgConfig={imgConfig} />
                 </SwiperSlide>
               ))}
