@@ -52,7 +52,7 @@ const ProposalItem = ({
                   href={`http://imdb.com/title/` + movie.imdb_id}
                   rel="noreferrer"
                 >
-                  {movie.title}
+                  {movie.original_title}
                 </a>
               </h2>
 
