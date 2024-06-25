@@ -1,8 +1,9 @@
 import { ConfigurationResponse, MovieDb, MovieResponse } from "moviedb-promise";
 import { useEffect, useMemo, useState } from "react";
-import { Card, CardImg, Row, Button, Container } from "react-bootstrap";
+import { Card, CardImg, Row, Button, Container, Badge } from "react-bootstrap";
 import { TProposal } from "../interfaces/clubData";
 import styles from "./ProposalItem.module.scss";
+import imdb_logo from "../imdb_logo.svg";
 
 const ProposalItem = ({
   proposal,
@@ -16,9 +17,11 @@ const ProposalItem = ({
   useEffect(() => {
     if (proposal.proposal) {
       const moviedb = new MovieDb(process.env.REACT_APP_THEMOVIEDB as string);
-      moviedb.movieInfo({ id: proposal.proposal }).then((res) => {
-        setMovie(res);
-      });
+      moviedb
+        .movieInfo({ id: proposal.proposal, language: "es" })
+        .then((res) => {
+          setMovie(res);
+        });
     }
   }, [proposal]);
 
@@ -45,21 +48,27 @@ const ProposalItem = ({
           )}
           <Container className={`${styles.cardBody} pt-3`}>
             <Row>
-              <h2>
+              <h2>{movie.original_title}</h2>
+              <h3>
+                {movie.title !== movie.original_title && (
+                  <i className="fw-lighter me-3">{movie.title}</i>
+                )}
                 <a
-                  className="link-light text-decoration-none"
+                  className="link-dark text-decoration-none badge text-bg-warning text-dark"
                   target="_blank"
                   href={`http://imdb.com/title/` + movie.imdb_id}
                   rel="noreferrer"
                 >
-                  {movie.original_title}
+                  {/* <img src={imdb_logo} alt={`${movie.title} logo`} /> */}
+                  IMDb
                 </a>
-              </h2>
-
+              </h3>
+            </Row>
+            <Row>
               <h5>Propuesta por {proposal.nombre} </h5>
             </Row>
-            <Row className="pt-0">
-              <p>{proposal.reason}</p>
+            <Row className={`pt-0`}>
+              <p className={`${styles.description}`}>{proposal.reason}</p>
             </Row>
           </Container>
         </>
