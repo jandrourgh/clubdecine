@@ -85,7 +85,7 @@ const ClubData = ({
                 ))}
             </Swiper>
           </Row>
-          <Row className="py-2">
+          <Row className="pt-2 pb-4">
             <h1 className="d-flex justify-content-between">
               {data?.nombre}{" "}
               <Button variant="light" onClick={() => router("/browse")}>
