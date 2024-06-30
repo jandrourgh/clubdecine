@@ -10,7 +10,7 @@ import { TClubData, TProposal } from "../interfaces/clubData";
 import ProposalItem from "./ProposalItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, EffectCreative } from "swiper/modules";
-import { Container, Row, Button } from "react-bootstrap";
+import { Container, Row, Button, Col } from "react-bootstrap";
 import styles from "./ClubData.module.scss";
 import { useNavigate } from "react-router-dom";
 import { ConfigurationResponse, MovieDb } from "moviedb-promise";
@@ -63,38 +63,37 @@ const ClubData = ({
   return (
     <>
       {proposalsSorted && (
-        <Row className="">
-          <Swiper
-            pagination={true}
-            loop={true}
-            modules={[Pagination, EffectCreative]}
-            mousewheel={true}
-            effect="creative"
-            className={`p-0 min-vh-100 ${styles.swiper}`}
-            creativeEffect={{
-              prev: { opacity: 0, translate: ["-100%", 0, 0] },
-              next: { opacity: 0, translate: ["100%", 0, 0] },
-            }}
-          >
-            {imgConfig &&
-              proposalsSorted.map((proposal, i) => (
-                <SwiperSlide key={proposal.nombre}>
-                  <ProposalItem proposal={proposal} imgConfig={imgConfig} />
-                </SwiperSlide>
-              ))}
-          </Swiper>
-          <Row
-            className="position-absolute pe-0"
-            style={{ bottom: 30, zIndex: 20 }}
-          >
-            <h1 className="d-flex pe-0 justify-content-between">
+        <Col className="d-flex flex-column vh-100">
+          <Row className="flex-fill">
+            <Swiper
+              pagination={true}
+              loop={true}
+              modules={[Pagination, EffectCreative]}
+              mousewheel={true}
+              effect="creative"
+              className={`p-0 ${styles.swiper}`}
+              creativeEffect={{
+                prev: { opacity: 0, translate: ["-100%", 0, 0] },
+                next: { opacity: 0, translate: ["100%", 0, 0] },
+              }}
+            >
+              {imgConfig &&
+                proposalsSorted.map((proposal, i) => (
+                  <SwiperSlide key={proposal.nombre}>
+                    <ProposalItem proposal={proposal} imgConfig={imgConfig} />
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          </Row>
+          <Row className="py-2">
+            <h1 className="d-flex justify-content-between">
               {data?.nombre}{" "}
               <Button variant="light" onClick={() => router("/browse")}>
                 Proponer
               </Button>
             </h1>{" "}
           </Row>
-        </Row>
+        </Col>
       )}
     </>
   );

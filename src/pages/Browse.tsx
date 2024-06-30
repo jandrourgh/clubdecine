@@ -19,7 +19,6 @@ export const Browse = ({
 }) => {
   const [movieData, setMovieData] = useState<MovieResult[]>([]);
   const [query, setQuery] = useState("");
-  const [shouldFetch, setShouldFetch] = useState(false);
   const [baseURL, setBaseURL] = useState("");
   const [shouldGetConfig, setShouldGetConfig] = useState(true);
 
@@ -37,7 +36,7 @@ export const Browse = ({
     }
   }, [config]);
 
-  const [data] = useFetch(query, shouldFetch);
+  const { data, getMovies } = useFetch(query);
 
   useEffect(() => {
     if (data) {
@@ -59,8 +58,8 @@ export const Browse = ({
   };
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    setShouldFetch(true);
     evt.preventDefault();
+    getMovies();
   };
 
   return (

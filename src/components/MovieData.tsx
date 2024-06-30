@@ -1,5 +1,6 @@
 import { MovieResult } from "moviedb-promise";
 import React, { useState } from "react";
+import styles from "./ProposalItem.module.scss";
 import {
   Card,
   Row,
@@ -34,7 +35,7 @@ const MovieData = ({
   };
 
   return (
-    <Row>
+    <Row className="mt-3">
       {data.map((movie, i) => (
         <Col
           lg={3}
@@ -42,19 +43,20 @@ const MovieData = ({
           sm={6}
           xs={12}
           key={i}
-          className="my-2"
-          style={{
-            backgroundImage: `url(${baseURL}${movie.backdrop_path})`,
-            backgroundSize: "contain",
-          }}
+          className="mb-1 bg-dark position-relative overflow-hidden"
         >
+          <div
+            className={styles.overlay}
+            style={{
+              backgroundImage: `url(${baseURL}${movie?.poster_path})`,
+            }}
+          />
           <Row
             xs={12}
             onClick={(evt) =>
               handlePropose(movie.id as number, movie.title as string)
             }
-            style={{ backdropFilter: `blur(10px) brightness(50%)` }}
-            className="text-white rounded-0"
+            className="text-white rounded-0 position-relative"
           >
             <Col className="text-center p-2">
               <p>
@@ -62,23 +64,18 @@ const MovieData = ({
                 <i className="tw-light">{movie.title}</i>
               </p>
               <span className="fw-light">
-                <em>{`${movie.release_date?.slice(0, 4)}`}</em>
+                <p>{`${movie.release_date?.slice(0, 4)}`}</p>
               </span>
             </Col>
-            <Col xs={6} className="d-flex p-0">
-              {movie.poster_path ? (
+            {movie.poster_path && (
+              <Col xs={6} className="d-flex p-0">
                 <Image
                   style={{ width: "100%" }}
                   className="rounded-0"
                   src={`${baseURL}${movie.poster_path}`}
                 ></Image>
-              ) : (
-                <div className="p-3 text-center">
-                  {" "}
-                  No hay imagen disponible :(
-                </div>
-              )}
-            </Col>
+              </Col>
+            )}
           </Row>
         </Col>
       ))}
